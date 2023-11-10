@@ -55,7 +55,7 @@ const Home = () => {
 
     return (
       <KeyboardAvoidingView style={styles.main}>
-        <StatusBar style="inverted" />
+        <StatusBar style="light" />
 
         {/* Present Date */}
         <View style={styles.date}>

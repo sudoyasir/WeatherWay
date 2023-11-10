@@ -57,7 +57,7 @@ const Search = () => {
 
     return (
       <View style={styles.main}>
-        <StatusBar style="inverted" />
+        <StatusBar style="light" />
         <View style={styles.searchCity}>
           <TextInput
             style={styles.search}

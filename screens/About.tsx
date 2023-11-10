@@ -53,7 +53,7 @@ const About = () => {
 
   return (
     <View style={styles.main}>
-      <StatusBar style="inverted" />
+      <StatusBar style="light" />
       <ScrollView style={styles.scrollViewContent}>
         <View style={styles.introContainer}>
           <Text style={styles.introText}>Hello! 🚀</Text>

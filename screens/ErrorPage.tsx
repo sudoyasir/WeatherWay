@@ -7,7 +7,7 @@ import { StatusBar } from 'expo-status-bar';
 const Error = () => {
   return (
     <View style={styles.main}>
-        <StatusBar style='inverted'/>
+        <StatusBar style='light'/>
         <LottieView autoPlay
           loop source={require('../assets/animations/ErrorAnimation.json')} 
           style={{height:250,width:250}}
