@@ -22,7 +22,7 @@ const About = () => {
   const fetchRepo = async () => {
     try {
       const response = await fetch(
-        "https://api.github.com/repos/yasir2002/yasir2002.github.io"
+        "https://api.github.com/repos/yasir2002/WeatherWay"
       );
       const data = await response.json();
       setRepo(data);
@@ -47,7 +47,7 @@ const About = () => {
   };
 
   const handleStarButtonClick = async () => {
-    const githubRepoUrl = "https://github.com/yasir2002/yasir2002.github.io";
+    const githubRepoUrl = "https://github.com/yasir2002/WeatherWay";
     await WebBrowser.openBrowserAsync(githubRepoUrl);
   };
 

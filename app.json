@@ -1,12 +1,12 @@
 {
   "expo": {
-    "name": "weather",
+    "name": "WeatherWay",
     "slug": "weather",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
-      "image": "./assets/splash.jpeg",
+      "image": "./assets/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#101010"
     },
@@ -28,6 +28,11 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "42cee087-269b-47e6-925c-54c5c84aa72b"
+      }
     }
   }
 }
