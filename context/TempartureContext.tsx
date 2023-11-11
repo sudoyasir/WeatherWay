@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import * as Location from "expo-location";
 import { API_KEY } from "../constants/keys";
+import Toast from "react-native-toast-message";
 interface TempContextType {
   TempMode: boolean;
 }
@@ -78,8 +79,15 @@ const TempratureContextProvider: React.FC<React.ReactNode> = ({ children }) => {
       // Handle errors, including the case where the city is not found
       setFetchError(true);
 
-      // Show an alert for the user
-      window.alert(`City not found: ${cityVal}`);
+      // Show a customized toast for the user when the city is not found
+      Toast.show({
+        type: "error", // or any other type you want
+        text1: "City Not Found",
+        text2: `Weather data not found for ${cityVal}`,
+        visibilityTime: 4000, // Optional: Set the visibility time for the toast
+      });
+      console.log(e);
+      
     }
   };
 
