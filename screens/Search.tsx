@@ -10,10 +10,10 @@ import {
 } from "react-native";
 import { StatusBar } from "expo-status-bar";
 
-//Colors
+// Colors
 import { BACKGROUND_COLOR, NAV_BACKGROUND_COLOR } from "../constants/colors";
 
-//Icons
+// Icons
 import { MaterialIcons } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
@@ -21,7 +21,7 @@ import { useTemp } from "../context/TempartureContext";
 import Loading from "./Loading";
 import Toast from "react-native-toast-message";
 
-//Screen Height and Width
+// Screen Height and Width
 const { height, width } = Dimensions.get("window");
 
 const Search = () => {
@@ -32,25 +32,29 @@ const Search = () => {
   const { tempMode, StateWeatherData, getStateWeatherData, FetchError }: any =
     useTemp();
 
+  // useEffect to get weather data on component mount
   React.useEffect(() => {
     getStateWeatherData(cityVal);
     console.log("Search: ", cityVal);
-    
   }, []);
 
+  // Function to clear input
   const clearInput = () => {
     setCityVal("");
   };
 
+  // Function to submit input
   const submit = async () => {
     try {
       await getStateWeatherData(cityVal);
       console.log("Search: ", cityVal);
-      // clear input after 1 sec
+
+      // Clear input after 1 sec
       setTimeout(() => {
         setCityVal("");
       }, 1000);
     } catch (error) {
+      // Show error message
       Toast.show({
         type: "error",
         position: "bottom",
@@ -64,11 +68,12 @@ const Search = () => {
     }
   };
 
+  // Function to change city value
   const changeFun = (val: string) => {
     setCityVal(val);
   };
-  
 
+  // Conditional rendering based on weather data
   if (StateWeatherData) {
     const { main } = StateWeatherData.weather[0];
     const { temp, pressure, humidity } = StateWeatherData.main;
@@ -77,10 +82,11 @@ const Search = () => {
     const date = new Date();
     const hour = date.getHours();
 
-
     return (
       <View style={styles.main}>
         <StatusBar style="light" />
+
+        {/* Search bar */}
         <View style={styles.searchCity}>
           <TextInput
             style={styles.search}
@@ -93,14 +99,16 @@ const Search = () => {
             value={cityVal}
           />
           {cityVal.length > 0 && (
+            // Clear icon
             <TouchableOpacity style={styles.clearIcon} onPress={clearInput}>
               <MaterialIcons name="clear" size={24} color="#fff" />
             </TouchableOpacity>
           )}
         </View>
 
-        {/*Weather Icon */}
+        {/* Weather Icon */}
         <View style={[styles.weatherIconView]}>
+          {/* Weather condition-specific icons */}
           {main === "Haze" ? (
             <Image
               style={{ height: 120, width: 160 }}
@@ -197,7 +205,7 @@ const Search = () => {
           ) : null}
         </View>
 
-        {/*Temprature */}
+        {/* Temperature */}
         <View>
           <Text style={styles.tempText}>
             {parseInt(temp)}
@@ -205,7 +213,7 @@ const Search = () => {
           </Text>
         </View>
 
-        {/*Weather Condition */}
+        {/* Weather Condition */}
         <View>
           <Text style={styles.weatherState}>{main}</Text>
         </View>
@@ -217,9 +225,9 @@ const Search = () => {
           <Text style={styles.countryText}>{StateWeatherData.sys.country}</Text>
         </View>
 
-        {/*Other Weather Data */}
-
+        {/* Other Weather Data */}
         <View style={styles.otherData}>
+          {/* Humidity */}
           <View style={styles.Humidity}>
             <MaterialCommunityIcons
               name="water-outline"
@@ -231,6 +239,8 @@ const Search = () => {
             </Text>
             <Text style={styles.otherDataText}>Humidity</Text>
           </View>
+
+          {/* Wind Speed */}
           <View style={styles.Pressure}>
             <MaterialCommunityIcons
               name="weather-windy"
@@ -242,6 +252,8 @@ const Search = () => {
             </Text>
             <Text style={styles.otherDataText}>Wind</Text>
           </View>
+
+          {/* Pressure */}
           <View style={styles.WindSpeed}>
             <MaterialCommunityIcons
               name="weather-pouring"
@@ -251,12 +263,13 @@ const Search = () => {
             <Text style={styles.otherDataValueText}>
               {pressure} <Text style={styles.unitText}>hPa</Text>
             </Text>
-            <Text style={styles.otherDataText}>pressure</Text>
+            <Text style={styles.otherDataText}>Pressure</Text>
           </View>
         </View>
       </View>
     );
   } else {
+    // Loading component while waiting for weather data
     return <Loading />;
   }
 };

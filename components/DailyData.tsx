@@ -3,16 +3,13 @@ import { Dimensions, StyleSheet, Text, View } from "react-native";
 import { NAV_BACKGROUND_COLOR } from "../constants/colors";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
-//Props
-interface props {
-  // dt: number;
-  // temp: string;
-  // main: string; //this is weather
-  dayData:string[],
-  tempData:any
+// Props
+interface Props {
+  dayData: string[];
+  tempData: any;
 }
 
-//Screen height and Width
+// Screen height and Width
 const { width } = Dimensions.get("window");
 
 import {
@@ -21,11 +18,12 @@ import {
   PieChart,
   ProgressChart,
   ContributionGraph,
-  StackedBarChart
+  StackedBarChart,
 } from "react-native-chart-kit";
 
-const DailyData: React.FC<props> = ({dayData,tempData}) => {
- 
+const DailyData: React.FC<Props> = ({ dayData, tempData }) => {
+  // Adding °C to the Y Axis
+  const formatYAxisLabel = (label: string) => `${label} °C`;
 
   return (
     <View style={styles.main}>
@@ -38,7 +36,7 @@ const DailyData: React.FC<props> = ({dayData,tempData}) => {
             },
           ],
         }}
-        width={width-40} // from react-native
+        width={width - 40} // from react-native
         height={115}
         withInnerLines={false}
         yAxisInterval={1} // optional, defaults to 1
@@ -55,33 +53,26 @@ const DailyData: React.FC<props> = ({dayData,tempData}) => {
           propsForDots: {
             r: "4",
             strokeWidth: "2",
-            stroke:NAV_BACKGROUND_COLOR,
+            stroke: NAV_BACKGROUND_COLOR,
           },
         }}
         bezier
         style={{
           borderRadius: 15,
-          alignSelf:'center',
-          paddingBottom:50,
+          alignSelf: "center",
+          paddingBottom: 50,
         }}
+        formatYLabel={formatYAxisLabel} // Use the custom formatting function
       />
     </View>
   );
 };
-
-{
-  /* <Text style={styles.otherDataValueText}>{parseInt(temp)}<Text style={styles.unitText}> °C</Text></Text> */
-}
-// <Text style={styles.day}>{main}</Text>
-// <Text style={styles.day}>{dayname}</Text>
 
 export default DailyData;
 
 const styles = StyleSheet.create({
   main: {
     flex: 1,
-    marginHorizontal:'auto'
-  
+    marginHorizontal: "auto",
   },
-  
 });

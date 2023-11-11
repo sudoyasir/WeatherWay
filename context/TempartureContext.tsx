@@ -46,7 +46,7 @@ const TempratureContextProvider: React.FC<React.ReactNode> = ({ children }) => {
           latitude,
           longitude,
         });
-        console.log(locName[0].city + " " + locName[0].country);
+        console.log("Device Location: "+locName[0].city + ", " + locName[0].country);
         setLocName([locName[0].city, locName[0].country]);
 
         //APi Call After Getting Location
