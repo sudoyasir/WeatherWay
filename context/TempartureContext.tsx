@@ -78,14 +78,7 @@ const TempratureContextProvider: React.FC<React.ReactNode> = ({ children }) => {
     } catch (e) {
       // Handle errors, including the case where the city is not found
       setFetchError(true);
-
-      // Show a customized toast for the user when the city is not found
-      Toast.show({
-        type: "error", // or any other type you want
-        text1: "City Not Found",
-        text2: `Weather data not found for ${cityVal}`,
-        visibilityTime: 4000, // Optional: Set the visibility time for the toast
-      });
+      cityVal = "";
       console.log(e);
       
     }

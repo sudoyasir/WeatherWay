@@ -19,6 +19,8 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 import { useTemp } from "../context/TempartureContext";
 import Loading from "./Loading";
+import Toast from "react-native-toast-message";
+import { get } from "react-native/Libraries/TurboModule/TurboModuleRegistry";
 
 //Screen Height and Width
 const { height, width } = Dimensions.get("window");
@@ -28,15 +30,41 @@ const Search = () => {
   const date = new Date();
   const Full_Date: string = date.toDateString();
 
-  const { tempMode, StateWeatherData, getStateWeatherData }: any = useTemp();
+  const { tempMode, StateWeatherData, getStateWeatherData, FetchError }: any =
+    useTemp();
 
   React.useEffect(() => {
     getStateWeatherData(cityVal);
   }, []);
-  const submit = () => {
-    getStateWeatherData(cityVal);
-    // setCityVal("");
+  const submit = async () => {
+    if (cityVal === "") {
+      // Show toast for empty city
+      Toast.show({
+        type: "error",
+        text1: "Empty City",
+        text2: "Please enter a city name",
+        visibilityTime: 4000,
+      });
+    }
+    else if (FetchError) {
+      Toast.show({
+        type: "error",
+        text1: "City Not Found 🙁",
+        text2: `Weather data for ${cityVal} not found.`,
+        visibilityTime: 4000,
+      });
+    }
+     else {
+      try {
+        await getStateWeatherData(cityVal);
+      } catch (error) {
+        // Handle error when weather data is not found
+        // You can also check FetchError state here
+       
+      }
+    }
   };
+
   const changeFun = (val: string) => {
     setCityVal(val);
   };

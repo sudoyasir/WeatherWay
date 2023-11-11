@@ -1,18 +1,18 @@
 import React from "react";
-import { StatusBar } from "expo-status-bar";
-import { StyleSheet, View } from "react-native";
+import { StatusBar, View } from "react-native";
 import RootNavigator from "./components/RootNavigator";
 import TempratureContextProvider from "./context/TempartureContext";
 import Toast from "react-native-toast-message";
 
 const App = () => {
   return (
-    <TempratureContextProvider>
-      <View style={{ flex: 1 }}>
+    <View style={{ flex: 1 }}>
+      <StatusBar style="light" />
+      <TempratureContextProvider>
         <RootNavigator />
-        <Toast ref={(ref) => Toast.setRef(ref)} />
-      </View>
-    </TempratureContextProvider>
+      </TempratureContextProvider>
+      <Toast ref={(ref) => Toast.setRef(ref)} />
+    </View>
   );
 };
 
