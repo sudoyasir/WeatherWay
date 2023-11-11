@@ -20,7 +20,6 @@ import { Ionicons } from "@expo/vector-icons";
 import { useTemp } from "../context/TempartureContext";
 import Loading from "./Loading";
 import Toast from "react-native-toast-message";
-import { get } from "react-native/Libraries/TurboModule/TurboModuleRegistry";
 
 //Screen Height and Width
 const { height, width } = Dimensions.get("window");
@@ -35,39 +34,40 @@ const Search = () => {
 
   React.useEffect(() => {
     getStateWeatherData(cityVal);
+    console.log("Search: ", cityVal);
+    
   }, []);
+
+  const clearInput = () => {
+    setCityVal("");
+  };
+
   const submit = async () => {
-    if (cityVal === "") {
-      // Show toast for empty city
+    try {
+      await getStateWeatherData(cityVal);
+      console.log("Search: ", cityVal);
+      // clear input after 1 sec
+      setTimeout(() => {
+        setCityVal("");
+      }, 1000);
+    } catch (error) {
       Toast.show({
         type: "error",
-        text1: "Empty City",
-        text2: "Please enter a city name",
-        visibilityTime: 4000,
+        position: "bottom",
+        text1: "Error",
+        text2: error.message,
+        visibilityTime: 2000,
+        autoHide: true,
+        topOffset: 30,
+        bottomOffset: 40,
       });
-    }
-    else if (FetchError) {
-      Toast.show({
-        type: "error",
-        text1: "City Not Found 🙁",
-        text2: `Weather data for ${cityVal} not found.`,
-        visibilityTime: 4000,
-      });
-    }
-     else {
-      try {
-        await getStateWeatherData(cityVal);
-      } catch (error) {
-        // Handle error when weather data is not found
-        // You can also check FetchError state here
-       
-      }
     }
   };
 
   const changeFun = (val: string) => {
     setCityVal(val);
   };
+  
 
   if (StateWeatherData) {
     const { main } = StateWeatherData.weather[0];
@@ -77,7 +77,6 @@ const Search = () => {
     const date = new Date();
     const hour = date.getHours();
 
-    console.log(main);
 
     return (
       <View style={styles.main}>
@@ -88,12 +87,16 @@ const Search = () => {
             placeholder="Search Cities"
             placeholderTextColor={"rgba(256,256,256,0.4)"}
             keyboardType="web-search"
-            value={cityVal}
+            returnKeyType="search"
+            onSubmitEditing={submit}
             onChangeText={changeFun}
+            value={cityVal}
           />
-          <TouchableOpacity onPress={submit} style={styles.searchBtn}>
-            <MaterialIcons name="search" size={24} color="#fff" />
-          </TouchableOpacity>
+          {cityVal.length > 0 && (
+            <TouchableOpacity style={styles.clearIcon} onPress={clearInput}>
+              <MaterialIcons name="clear" size={24} color="#fff" />
+            </TouchableOpacity>
+          )}
         </View>
 
         {/*Weather Icon */}
@@ -209,8 +212,9 @@ const Search = () => {
 
         {/* Current Location */}
         <View style={styles.location}>
-          <Ionicons name="md-location-outline" size={35} color="#3ddc84" />
+          <Ionicons name="md-location-outline" size={25} color="#3ddc84" />
           <Text style={styles.locationText}>{StateWeatherData.name}</Text>
+          <Text style={styles.countryText}>{StateWeatherData.sys.country}</Text>
         </View>
 
         {/*Other Weather Data */}
@@ -271,6 +275,7 @@ const styles = StyleSheet.create({
     marginHorizontal: "4%",
     justifyContent: "center",
     alignItems: "center",
+    position: "relative",
   },
   search: {
     backgroundColor: NAV_BACKGROUND_COLOR,
@@ -280,14 +285,10 @@ const styles = StyleSheet.create({
     color: "rgba(256,256,256,0.9)",
     paddingLeft: 25,
   },
-  searchBtn: {
-    height: 50,
-    width: 50,
-    backgroundColor: NAV_BACKGROUND_COLOR,
-    alignItems: "center",
-    justifyContent: "center",
-    borderRadius: 50,
-    marginLeft: 10,
+  clearIcon: {
+    position: "absolute",
+    right: 10,
+    top: 12,
   },
   date: {
     marginLeft: "7%",
@@ -310,6 +311,13 @@ const styles = StyleSheet.create({
     fontWeight: "normal",
     marginLeft: 4,
     textTransform: "capitalize",
+  },
+  countryText: {
+    color: "rgba(256,256,256,0.7)",
+    fontSize: 20,
+    fontWeight: "bold",
+    marginLeft: 10,
+    textTransform: "uppercase",
   },
   weatherIconView: {
     display: "flex",

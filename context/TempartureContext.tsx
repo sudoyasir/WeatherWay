@@ -76,11 +76,13 @@ const TempratureContextProvider: React.FC<React.ReactNode> = ({ children }) => {
         throw new Error(`Weather data not found for ${cityVal}`);
       }
     } catch (e) {
-      // Handle errors, including the case where the city is not found
-      setFetchError(true);
-      cityVal = "";
-      console.log(e);
-      
+      Toast.show({
+        type: "error",
+        position: "bottom",
+        text1: "City Not Found 🙁",
+        text2: `Weather data for ${cityVal} not found.`,
+        visibilityTime: 4000,
+      });
     }
   };
 

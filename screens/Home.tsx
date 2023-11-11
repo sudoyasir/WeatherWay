@@ -1,9 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   Dimensions,
   Image,
   KeyboardAvoidingView,
-  ScrollView,
   StyleSheet,
   Text,
   View,
@@ -14,14 +13,10 @@ import { StatusBar } from "expo-status-bar";
 import { BACKGROUND_COLOR, NAV_BACKGROUND_COLOR } from "../constants/colors";
 
 //Icons
-import { MaterialIcons } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { Feather } from "@expo/vector-icons";
-import { Ionicons } from "@expo/vector-icons";
 import { useTemp } from "../context/TempartureContext";
 import Loading from "./Loading";
 import DailyData from "../components/DailyData";
-import Animated, { FadeIn } from "react-native-reanimated";
 
 //Screen Height and Width
 const { height, width } = Dimensions.get("window");
