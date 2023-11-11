@@ -62,14 +62,24 @@ const TempratureContextProvider: React.FC<React.ReactNode> = ({ children }) => {
   }, []);
 
   const getStateWeatherData = async (cityVal: any) => {
-    // setStateWeatherData(null);
     try {
       const URL = `https://api.openweathermap.org/data/2.5/weather?q=${cityVal}&units=metric&appid=${API_KEY}`;
       const res = await fetch(URL);
-      const data = await res.json();
-      setStateWeatherData(data);
+
+      // Check if the response status indicates success
+      if (res.ok) {
+        const data = await res.json();
+        setStateWeatherData(data);
+      } else {
+        // If the response status is not okay, handle the error
+        throw new Error(`Weather data not found for ${cityVal}`);
+      }
     } catch (e) {
+      // Handle errors, including the case where the city is not found
       setFetchError(true);
+
+      // Show an alert for the user
+      window.alert(`City not found: ${cityVal}`);
     }
   };
 
@@ -79,7 +89,7 @@ const TempratureContextProvider: React.FC<React.ReactNode> = ({ children }) => {
     getStateWeatherData,
     StateWeatherData,
     FetchError,
-    LocName
+    LocName,
   };
   return (
     <TempratureContext.Provider value={value}>

@@ -1,9 +1,7 @@
 import React, { useState } from "react";
 import {
-  Button,
   Dimensions,
   Image,
-  ScrollView,
   StyleSheet,
   Text,
   TextInput,
@@ -18,11 +16,9 @@ import { BACKGROUND_COLOR, NAV_BACKGROUND_COLOR } from "../constants/colors";
 //Icons
 import { MaterialIcons } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { Feather } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 import { useTemp } from "../context/TempartureContext";
 import Loading from "./Loading";
-import DailyData from "../components/DailyData";
 
 //Screen Height and Width
 const { height, width } = Dimensions.get("window");

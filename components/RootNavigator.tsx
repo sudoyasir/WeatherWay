@@ -54,25 +54,7 @@ export default function RootNavigator() {
           maxWidth={320} height={65}  darkMode={true}  {...props}
           />}
       >
-        {FetchError?<Tab.Screen
-          options={{
-            tabBarShowLabel: false,
-            tabBarIcon: ({ color, size, focused }:any) => {
-              const c = focused ? ICON_FOCUSED_COLOR : ICON_COLOR;
-              return (
-                <View >
-                  <Feather
-                    name='home'
-                    size={24}
-                    color={color}
-                  />
-                </View>
-              );
-            },
-          }}
-          name='Home'
-          component={ErrorPage}
-        />:<Tab.Screen
+        {<Tab.Screen
           options={{
             tabBarShowLabel: false,
             tabBarIcon: ({ color, size, focused }:any) => {
