@@ -56,15 +56,16 @@ const About = () => {
       <StatusBar style="light" />
       <ScrollView style={styles.scrollViewContent}>
         <View style={styles.introContainer}>
-          <Text style={styles.introText}>Hello! 🚀</Text>
+          <Text style={styles.introText}>Hello Explorer! 🚀</Text>
           <Text style={styles.detailedIntroText}>
-            Welcome to my mobile application developed as a semester project for
-            the Mobile Application Development course. This project is a weather
-            app that uses the OpenWeatherMap API to fetch weather data for a
-            given location. The app is built using React Native and Expo.
+            Welcome aboard my meteoric mobile creation, a stellar project
+            crafted during the intergalactic journey of the Mobile Application
+            Development course. {"\n"}This cosmic weather app harnesses the power
+            of the OpenWeatherMap API to unveil the atmospheric secrets of any
+            location.
             {"\n"}
             {"\n"}
-            The source code for this app is available on GitHub at
+            Dive into the source code nebula on GitHub at
           </Text>
         </View>
         <TouchableOpacity style={styles.repoCard} onPress={handleItemClick}>

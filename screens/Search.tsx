@@ -56,15 +56,16 @@ const Search = () => {
     } catch (error) {
       // Show error message
       Toast.show({
-        type: "error",
-        position: "bottom",
-        text1: "Error",
+        type: 'error',
+        position: 'bottom',
+        text1: 'Error',
         text2: error.message,
         visibilityTime: 2000,
         autoHide: true,
         topOffset: 30,
         bottomOffset: 40,
       });
+      
     }
   };
 
