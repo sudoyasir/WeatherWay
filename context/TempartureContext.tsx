@@ -46,7 +46,9 @@ const TempratureContextProvider: React.FC<React.ReactNode> = ({ children }) => {
           latitude,
           longitude,
         });
-        console.log("Device Location: "+locName[0].city + ", " + locName[0].country);
+        console.log(
+          "Device Location: " + locName[0].city + ", " + locName[0].country
+        );
         setLocName([locName[0].city, locName[0].country]);
 
         //APi Call After Getting Location
@@ -72,7 +74,7 @@ const TempratureContextProvider: React.FC<React.ReactNode> = ({ children }) => {
         const data = await res.json();
         setStateWeatherData(data);
       } else {
-        // If the response status is not okay, handle the error
+        // If the response status is not okay, hadling the error
         throw new Error(`Weather data not found for ${cityVal}`);
       }
     } catch (e) {
