@@ -4,17 +4,18 @@ import { StyleSheet, View } from "react-native";
 import RootNavigator from "./components/RootNavigator";
 import TempratureContextProvider from "./context/TempartureContext";
 import Toast from "react-native-toast-message";
+import AnimatedSplash from "react-native-animated-splash-screen";
 
 const App = () => {
   return (
     <TempratureContextProvider>
+      <StatusBar style="light" />
       <View style={{ flex: 1 }}>
         <RootNavigator />
-        <Toast  />
+        <Toast />
       </View>
     </TempratureContextProvider>
   );
 };
-
 
 export default App;

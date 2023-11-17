@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Dimensions,
   Image,
@@ -9,96 +9,83 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { StatusBar } from "expo-status-bar";
+import { useTemp } from "../context/TempartureContext";
+import Toast from "react-native-toast-message";
+import Loading from "./Loading";
+import { MaterialIcons } from "@expo/vector-icons";
+import { Ionicons } from "@expo/vector-icons";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 // Colors
-import { BACKGROUND_COLOR, NAV_BACKGROUND_COLOR } from "../constants/colors";
-
-// Icons
-import { MaterialIcons } from "@expo/vector-icons";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { Ionicons } from "@expo/vector-icons";
-import { useTemp } from "../context/TempartureContext";
-import Loading from "./Loading";
-import Toast from "react-native-toast-message";
+const BACKGROUND_COLOR = "#000"; // Update with your color
+const NAV_BACKGROUND_COLOR = "#333"; // Update with your color
 
 // Screen Height and Width
 const { height, width } = Dimensions.get("window");
 
 const Search = () => {
   const [cityVal, setCityVal] = useState("Islamabad");
-  const date = new Date();
-  const Full_Date: string = date.toDateString();
+  const [loadingWeather, setLoadingWeather] = useState(false);
+  const { tempMode, StateWeatherData, getStateWeatherData }: any = useTemp();
 
-  const { tempMode, StateWeatherData, getStateWeatherData, FetchError }: any =
-    useTemp();
-
-  // useEffect to get weather data on component mount
-  React.useEffect(() => {
+  useEffect(() => {
+    // Initial API call on component mount
     getStateWeatherData(cityVal);
-    console.log("Search: ", cityVal);
   }, []);
 
-  // Function to clear input
   const clearInput = () => {
     setCityVal("");
   };
 
-  // Function to submit input
   const submit = async () => {
     try {
+      setLoadingWeather(true);
       await getStateWeatherData(cityVal);
-      console.log("Search: ", cityVal);
-
-      // Clear input after 1 sec
       setTimeout(() => {
         setCityVal("");
+        setLoadingWeather(false);
       }, 1000);
     } catch (error) {
-      // Show error message
+      setLoadingWeather(false);
       Toast.show({
-        type: 'error',
-        position: 'bottom',
-        text1: 'Error',
+        type: "error",
+        position: "bottom",
+        text1: "Error",
         text2: error.message,
         visibilityTime: 2000,
         autoHide: true,
         topOffset: 30,
         bottomOffset: 40,
       });
-      
     }
   };
 
-  // Function to change city value
-  const changeFun = (val: string) => {
-    setCityVal(val);
-  };
-
-  // Conditional rendering based on weather data
-  if (StateWeatherData) {
+  if (loadingWeather) {
+    return <Loading />;
+  } else if (StateWeatherData) {
     const { main } = StateWeatherData.weather[0];
-    const { temp, pressure, humidity } = StateWeatherData.main;
-    const { speed } = StateWeatherData.wind;
+    const { temp, pressure, humidity, speed } = StateWeatherData.main;
     const dd = new Date(StateWeatherData.dt * 1000).getUTCDay();
     const date = new Date();
     const hour = date.getHours();
 
     return (
       <View style={styles.main}>
+        {/* Weather data display */}
         <StatusBar style="light" />
 
         {/* Search bar */}
         <View style={styles.searchCity}>
-          <TextInput
-            style={styles.search}
-            placeholder="Search Cities"
-            placeholderTextColor={"rgba(256,256,256,0.4)"}
-            keyboardType="web-search"
-            returnKeyType="search"
-            onSubmitEditing={submit}
-            onChangeText={changeFun}
-            value={cityVal}
-          />
+        <TextInput
+          style={styles.search}
+          placeholder="Search Cities"
+          placeholderTextColor={"rgba(256,256,256,0.4)"}
+          keyboardType="web-search"
+          returnKeyType="search"
+          onSubmitEditing={submit}
+          value={cityVal}
+          onChangeText={setCityVal}
+        />
           {cityVal.length > 0 && (
             // Clear icon
             <TouchableOpacity style={styles.clearIcon} onPress={clearInput}>
@@ -270,12 +257,29 @@ const Search = () => {
       </View>
     );
   } else {
-    // Loading component while waiting for weather data
-    return <Loading />;
+    return (
+      <View style={styles.main}>
+        <StatusBar style="light" />
+        <View style={styles.searchCity}>
+          <TextInput
+            style={styles.search}
+            placeholder="Search Cities"
+            placeholderTextColor={"rgba(256,256,256,0.4)"}
+            keyboardType="web-search"
+            returnKeyType="search"
+            onSubmitEditing={submit}
+            value={cityVal}
+          />
+          {cityVal.length > 0 && (
+            <TouchableOpacity style={styles.clearIcon} onPress={clearInput}>
+              <MaterialIcons name="clear" size={24} color="#fff" />
+            </TouchableOpacity>
+          )}
+        </View>
+      </View>
+    );
   }
 };
-
-export default Search;
 
 const styles = StyleSheet.create({
   main: {
@@ -418,3 +422,5 @@ const styles = StyleSheet.create({
     borderRadius: 30,
   },
 });
+
+export default Search;

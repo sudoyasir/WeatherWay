@@ -157,7 +157,7 @@ const styles = StyleSheet.create({
   },
   introContainer: {
     padding: 20,
-    marginTop: 10,
+    marginTop: 35,
   },
   introText: {
     fontSize: 24,
@@ -168,10 +168,12 @@ const styles = StyleSheet.create({
   detailedIntroText: {
     fontSize: 13,
     color: "gray",
+    lineHeight: 20,
   },
   text: {
     color: "rgba(256,256,256,0.9)",
     marginBottom: 10,
+    lineHeight: 20,
   },
   textlite: {
     color: "rgba(256,256,256,0.4)",
