@@ -11,10 +11,6 @@ The WeatherWay is a mobile application built with React Native that provides rea
 - Visual representation of temperature trends with a daily graph
 - Responsive design for a seamless user experience
 
-## 📸 Screenshots
-
-Include screenshots or GIFs showcasing different aspects of your app.
-
 ## 🛠️ Tech Stack
 
 - React Native
